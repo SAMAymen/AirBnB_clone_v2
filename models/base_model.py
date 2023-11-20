@@ -29,7 +29,6 @@ class BaseModel:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
-
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -49,6 +48,8 @@ class BaseModel:
         dictionary.update({'__class__':
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         
-        dictionary['created_at'] = self.created_at if isinstance(self.created_at, str) else self.created_at.isoformat()
-        dictionary['updated_at'] = self.updated_at if isinstance(self.updated_at, str) else self.updated_at.isoformat()
+        dictionary['created_at'] = self.created_at if isinstance(self.created_at, str) else\
+            self.created_at.isoformat()
+        dictionary['updated_at'] = self.updated_at if isinstance(self.updated_at, str) else\
+            self.updated_at.isoformat()
         return dictionary
