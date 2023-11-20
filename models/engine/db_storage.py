@@ -15,10 +15,12 @@ classes = {"Amenity": Amenity, "City": City,
 
 
 class DBStorage:
+    """This class manages storage of hbnb models in JSON format"""
     __engine = None
     __session = None
 
     def __init__(self):
+        """initializes the database storage engine"""
         self.__engine = create_engine('mysql+mysqldb://{}:{}@{}/{}'
                                       .format(getenv('HBNB_MYSQL_USER'),
                                               getenv('HBNB_MYSQL_PWD'),
