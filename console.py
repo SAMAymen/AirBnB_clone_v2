@@ -11,6 +11,8 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 
+classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -113,31 +115,20 @@ class HBNBCommand(cmd.Cmd):
         """ Overrides the emptyline method of CMD """
         pass
 
-    def do_create(self, args):
-        """ Create an object of any class """
-        arg_list = args.split()
-        param = arg_list[1:]
-        key = []
-        value = []
-        for arg in args.split()[1:]:
-            k, v = arg.split("=")
-            key.append(k)
-            value.append(v)
-
-        print(arg_list)
-        if not args:
+    def do_create(self, arg):
+        """Creates a new instance of a class"""
+        args = arg.split()
+        if len(args) == 0:
             print("** class name missing **")
-            return
-        elif arg_list[0] not in HBNBCommand.classes:
+            return False
+        if args[0] in classes:
+            new_dict = self._key_value_parser(args[1:])
+            instance = classes[args[0]](**new_dict)
+        else:
             print("** class doesn't exist **")
-            return
-        new_instance = HBNBCommand.classes[arg_list[0]]()
-        for i in range(len(key)):
-            setattr(new_instance, key[i], self.input_handler(value[i]))
-        print(new_instance)
-        storage.save()
-        print(new_instance.id)
-        storage.save()
+            return False
+        print(instance.id)
+        instance.save()
 
     def input_handler(self, value):
         if "\"" in value:
