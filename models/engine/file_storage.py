@@ -12,10 +12,6 @@ from models.user import User
 
 class FileStorage:
     """Represent an abstracted storage engine.
-
-    Attributes:
-        __file_path (str): The name of the file to save objects to.
-        __objects (dict): A dictionary of instantiated objects.
     """
 
     __file_path = "file.json"
@@ -23,9 +19,6 @@ class FileStorage:
 
     def all(self, cls=None):
         """Return a dictionary of instantiated objects in __objects.
-
-        If a cls is specified, returns a dictionary of objects of that type.
-        Otherwise, returns the __objects dictionary.
         """
         if cls is not None:
             if type(cls) == str:
@@ -38,12 +31,13 @@ class FileStorage:
         return self.__objects
 
     def new(self, obj):
-        """Set in __objects obj with key <obj_class_name>.id."""
-        self.__objects["{}.{}".format(type(obj).__name__, obj.id)] = obj
+        """Set in objects obj with key _class_name.id."""
+        key = "{}.{}".format(type(obj).__name__, obj.id)
+        self.__objects[key] = obj
 
     def save(self):
-        """Serialize __objects to the JSON file __file_path."""
-        odict = {o: self.__objects[o].to_dict() for o in self.__objects.keys()}
+        """Serialize objects to the JSON file file_path."""
+        odict = {ob: self.__objects[ob].to_dict() for ob in self.__objects.keys()}
         with open(self.__file_path, "w", encoding="utf-8") as f:
             json.dump(odict, f)
 
@@ -51,17 +45,18 @@ class FileStorage:
         """Deserialize the JSON file __file_path to __objects, if it exists."""
         try:
             with open(self.__file_path, "r", encoding="utf-8") as f:
-                for o in json.load(f).values():
-                    name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(name)(**o))
+                for ob in json.load(f).values():
+                    name = ob["__class__"]
+                    del ob["__class__"]
+                    self.new(eval(name)(**ob))
         except FileNotFoundError:
             pass
 
     def delete(self, obj=None):
-        """Delete a given object from __objects, if it exists."""
+        """Delete a given object from objects, if it exists"""
         try:
-            del self.__objects["{}.{}".format(type(obj).__name__, obj.id)]
+            key = "{}.{}".format(type(obj).__name__, obj.id)
+            del self.__objects[key]
         except (AttributeError, KeyError):
             pass
 
