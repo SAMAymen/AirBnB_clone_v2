@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, Integer, String, DateTime, create_engine, ForeignKey, Float, Table
+from sqlalchemy import Column, Integer, String, ForeignKey, Float, Table
 from sqlalchemy.orm import relationship
 from os import getenv
 import models
@@ -56,5 +56,5 @@ class Place(BaseModel, Base):
 
         @amenities.setter
         def amenities(self, value):
-            if type(value) == Amenity:
+            if isinstance(value) == Amenity:
                 self.amenity_ids.append(value.id)

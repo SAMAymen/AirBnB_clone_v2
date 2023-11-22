@@ -10,12 +10,14 @@ from uuid import uuid4
 
 Base = declarative_base()
 
+
 class BaseModel:
     """A base class for all hbnb models"""
 
     id = Column(String(60), primary_key=True, nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+
     def __init__(self, *args, **kwargs):
         """Initialize a new BaseModel.
 
@@ -55,6 +57,7 @@ class BaseModel:
         dictionary['updated_at'] = self.updated_at.isoformat()
         dictionary.pop('_sa_instance_state', None)
         return dictionary
+
     def delete(self):
         """Delete the current instance from storage"""
         from models import storage
