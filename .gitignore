@@ -1,1 +1,6 @@
 venv
+.idea
+*.pyc
+*.pyo
+*.pyd
+.venv
