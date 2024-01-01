@@ -1,5 +1,3 @@
-# Configures a web server for deployment of web_static.
-
 # Nginx configuration file
 $nginx_conf = "server {
     listen 80 default_server;
@@ -7,13 +5,16 @@ $nginx_conf = "server {
     add_header X-Served-By ${hostname};
     root   /var/www/html;
     index  index.html index.htm;
+
     location /hbnb_static {
-	alias /data/web_static/current;
-	index index.html index.htm;
+        alias /data/web_static/current;
+        index index.html index.htm;
     }
+
     location /redirect_me {
-    	return 301 http://cuberule.com/;
+        return 301 http://cuberule.com/;
     }
+
     error_page 404 /404.html;
     location /404 {
       root /var/www/html;
@@ -43,12 +44,12 @@ file { '/data/web_static/releases/test':
 } ->
 
 file { '/data/web_static/shared':
-ensure => 'directory'
-  } ->
+  ensure => 'directory'
+} ->
 
 file { '/data/web_static/releases/test/index.html':
   ensure  => 'present',
-  content => "Holberton School Puppet\n"
+  content => "HELLO AIRBNB\n"
 } ->
 
 file { '/data/web_static/current':

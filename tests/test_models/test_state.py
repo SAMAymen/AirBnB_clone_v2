@@ -3,12 +3,10 @@ import MySQLdb
 import subprocess
 
 class TestCreateState(unittest.TestCase):
-    """ Test that a state can be created"""
     def setUp(self):
         self.db = MySQLdb.connect(host="localhost", user="hbnb_test", passwd="hbnb_test_pwd", db="hbnb_test_db")
         self.cursor = self.db.cursor()
 
-    """ Test that a state can be created"""
     def test_create_state(self):
         self.cursor.execute("SELECT COUNT(*) FROM states")
         original_count = self.cursor.fetchone()[0]
@@ -20,7 +18,6 @@ class TestCreateState(unittest.TestCase):
 
         self.assertEqual(new_count, original_count + 1)
 
-    """ Test that a state can be created"""
     def tearDown(self):
         self.cursor.close()
         self.db.close()

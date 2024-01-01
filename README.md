@@ -42,4 +42,3 @@
 | 8. DBStorage - Place | [SOON](./) |
 | 9. DBStorage - Review | [SOON](./) |
 | 10. DBStorage - Amenity... and BOOM! | [SOON](./) |
-
